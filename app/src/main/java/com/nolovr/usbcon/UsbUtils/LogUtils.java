@@ -1,4 +1,4 @@
-package com.example.usbcon.UsbUtils;
+package com.nolovr.usbcon.UsbUtils;
 
 import android.util.Log;
 

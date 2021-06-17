@@ -1,11 +1,11 @@
-package com.example.usbcon.device;
+package com.nolovr.usbcon.device;
 
 import android.content.Context;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.example.usbcon.UsbUtils.AccessoryUtils;
-import com.example.usbcon.UsbUtils.LogUtils;
+import com.nolovr.usbcon.UsbUtils.AccessoryUtils;
+import com.nolovr.usbcon.UsbUtils.LogUtils;
 
 public abstract class AccessoryCommunicator {
 

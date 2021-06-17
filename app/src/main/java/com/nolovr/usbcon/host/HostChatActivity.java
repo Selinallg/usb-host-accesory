@@ -1,28 +1,16 @@
-package com.example.usbcon.host;
+package com.nolovr.usbcon.host;
 
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
-import android.hardware.usb.UsbDeviceConnection;
-import android.hardware.usb.UsbEndpoint;
-import android.hardware.usb.UsbInterface;
-import android.hardware.usb.UsbManager;
-import android.hardware.usb.UsbRequest;
 import android.os.Bundle;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.example.usbcon.UsbUtils.Constants;
-import com.example.usbcon.UsbUtils.HostAccessoryUtils;
-import com.example.usbcon.UsbUtils.LogUtils;
-import com.example.usbcon.main.BaseChatActivity;
+import com.nolovr.usbcon.UsbUtils.Constants;
+import com.nolovr.usbcon.UsbUtils.HostAccessoryUtils;
+import com.nolovr.usbcon.UsbUtils.LogUtils;
+import com.nolovr.usbcon.main.BaseChatActivity;
 
 
 public class HostChatActivity extends BaseChatActivity {

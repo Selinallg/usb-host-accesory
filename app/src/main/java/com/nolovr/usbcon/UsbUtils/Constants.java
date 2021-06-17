@@ -1,4 +1,4 @@
-package com.example.usbcon.UsbUtils;
+package com.nolovr.usbcon.UsbUtils;
 
 public class Constants {
     public static final int USB_TIMEOUT_IN_MS = 100;

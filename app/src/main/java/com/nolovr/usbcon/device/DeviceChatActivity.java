@@ -1,9 +1,7 @@
-package com.example.usbcon.device;
+package com.nolovr.usbcon.device;
 
-import com.example.usbcon.main.BaseChatActivity;
+import com.nolovr.usbcon.main.BaseChatActivity;
 
-import android.content.Context;
-import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 
 public class DeviceChatActivity extends BaseChatActivity {

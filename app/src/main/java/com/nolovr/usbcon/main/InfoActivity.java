@@ -1,9 +1,9 @@
-package com.example.usbcon.main;
+package com.nolovr.usbcon.main;
 
-import com.example.usbcon.R;
-import com.example.usbcon.UsbUtils.HostAccessoryUtils;
-import com.example.usbcon.device.DeviceChatActivity;
-import com.example.usbcon.host.HostChatActivity;
+import com.nolovr.usbcon.R;
+import com.nolovr.usbcon.UsbUtils.HostAccessoryUtils;
+import com.nolovr.usbcon.device.DeviceChatActivity;
+import com.nolovr.usbcon.host.HostChatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

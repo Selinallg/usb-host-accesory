@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.usbcon"
+    package="com.nolovr.usbcon"
     android:versionCode="1"
     android:versionName="1.0" >
 	<uses-feature android:name="android.hardware.usb.host" />
@@ -15,11 +15,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.BaseChatActivity">
+        <activity android:name="com.nolovr.usbcon.main.BaseChatActivity">
 
 
         </activity>
-        <activity android:name=".main.InfoActivity">
+        <activity android:name="com.nolovr.usbcon.main.InfoActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
          
-        <activity android:name=".device.DeviceChatActivity">
+        <activity android:name="com.nolovr.usbcon.device.DeviceChatActivity">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
             </intent-filter>
@@ -37,7 +37,7 @@
                 android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
                 android:resource="@xml/accessory_filter" />
         </activity>
-        <activity android:name="com.example.usbcon.host.HostChatActivity">
+        <activity android:name="com.nolovr.usbcon.host.HostChatActivity">
 
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />

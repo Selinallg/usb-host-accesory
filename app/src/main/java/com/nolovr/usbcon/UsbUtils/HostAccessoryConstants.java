@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.usbcon.UsbUtils;
+package com.nolovr.usbcon.UsbUtils;
 
 final class HostAccessoryConstants {
     /* Use Google Vendor ID when in accessory mode */
