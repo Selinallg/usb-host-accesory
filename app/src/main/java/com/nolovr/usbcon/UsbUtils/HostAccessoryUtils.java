@@ -15,17 +15,25 @@ import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbEndpoint;
 import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
+import android.os.Build;
 
 /**
  * @author Giec:lijh
  */
 public class HostAccessoryUtils {
 
-    private static final String MANUFACTURER = "Giec";
-    private static final String MODEL        = "Accessory Display";
-    private static final String DESCRIPTION  = "Giec Usb Test Application";
+//    private static final String MANUFACTURER = "Giec";
+//    private static final String MODEL        = "Accessory Display";
+//    private static final String DESCRIPTION  = "Giec Usb Test Application";
+//    private static final String VERSION      = "1.0";
+//    private static final String URI          = "http://www.giec.cn/";
+//    private static final String SERIAL       = "0000000012345678";
+
+    private static final String MANUFACTURER = Build.MANUFACTURER;
+    private static final String MODEL        = Build.MODEL;
+    private static final String DESCRIPTION  = "NOLOVR Usb Communication Application";
     private static final String VERSION      = "1.0";
-    private static final String URI          = "http://www.giec.cn/";
+    private static final String URI          = "https://www.nolovr.com/";
     private static final String SERIAL       = "0000000012345678";
 
     private static boolean isConnected = false;
@@ -39,30 +47,31 @@ public class HostAccessoryUtils {
     private UsbInterface        mUsbInterface;
     private UsbDeviceConnection mUsbDeviceConnection;
     private UsbEndpoint         endpointIn, endpointOut;
-	private PendingIntent intent; //意图
-    private int protocolVersion;
+    private PendingIntent intent; //意图
+    private int           protocolVersion;
 
-	private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
+    private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
+
     public HostAccessoryUtils(Context context) {
         this.mContext = context;
         mUsbManager = (UsbManager) mContext.getSystemService(Context.USB_SERVICE);
         deviceList = mUsbManager.getDeviceList();
 
-		intent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
-		context.registerReceiver(broadcastReceiver, new IntentFilter(ACTION_USB_PERMISSION));
+        intent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
+        context.registerReceiver(broadcastReceiver, new IntentFilter(ACTION_USB_PERMISSION));
     }
 
-	private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			String action = intent.getAction();
-			if (ACTION_USB_PERMISSION.equals(action)) {
-				searchForUsbAccessory();
-			} else {
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (ACTION_USB_PERMISSION.equals(action)) {
+                searchForUsbAccessory();
+            } else {
 
-			}
-		}
-	};
+            }
+        }
+    };
 
     /**
      * check if device is in accessory mode
@@ -105,9 +114,9 @@ public class HostAccessoryUtils {
                 LogUtils.d("searchForUsbAccessory--------host:deviceslist:\n\n" + device.toString() + "\n\n");
                 // TODO: 2021/6/17 权限判断
                 if (mUsbManager.hasPermission(device)) {
-					LogUtils.d("hasPermission");
+                    LogUtils.d("hasPermission");
                 } else {
-					mUsbManager.requestPermission(device, intent);
+                    mUsbManager.requestPermission(device, intent);
                 }
 
                 if (!isAccessory(device)) {
