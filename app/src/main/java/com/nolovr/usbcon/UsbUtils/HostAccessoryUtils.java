@@ -31,7 +31,7 @@ public class HostAccessoryUtils {
 
     private static final String MANUFACTURER = Build.MANUFACTURER;
     private static final String MODEL        = Build.MODEL;
-    private static final String DESCRIPTION  = "NOLOVR Usb Communication Application";
+    private static final String DESCRIPTION  = "NOLOVR Usb Communication";
     private static final String VERSION      = "1.0";
     private static final String URI          = "https://www.nolovr.com/";
     private static final String SERIAL       = "0000000012345678";
