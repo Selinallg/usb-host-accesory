@@ -82,7 +82,7 @@ public class HostAccessoryUtils {
     public boolean isAccessory(UsbDevice device) {
         final int vid = device.getVendorId();
         final int pid = device.getProductId();
-        LogUtils.d("vid=" + vid + "  pid=" + pid);
+        LogUtils.d("vid=" + vid + "  pid=" + pid);//   18d1-2d01
         return vid == HostAccessoryConstants.USB_ACCESSORY_VENDOR_ID
                 && (pid == HostAccessoryConstants.USB_ACCESSORY_PRODUCT_ID
                 || pid == HostAccessoryConstants.USB_ACCESSORY_ADB_PRODUCT_ID
@@ -185,6 +185,7 @@ public class HostAccessoryUtils {
      * @return true means successfully
      */
     public boolean sendData(byte[] bytes) {
+        LogUtils.e("sendData dataLenght="+bytes.length);
         int result = mUsbDeviceConnection.bulkTransfer(endpointOut, bytes, bytes.length, Constants.USB_TIMEOUT_IN_MS);
         if (result < 0) {
             LogUtils.e("send fail");
@@ -204,14 +205,20 @@ public class HostAccessoryUtils {
      * @return data in byte[] format
      */
     public byte[] receiveData() {
-        byte buff[] = new byte[Constants.BUFFER_SIZE_IN_BYTES];
-        int  len    = mUsbDeviceConnection.bulkTransfer(endpointIn, buff, buff.length, Constants.USB_TIMEOUT_IN_MS);
-        if (len > 0) {
-            LogUtils.d("received: " + len);
-            return buff;
-        } else {
-            return null;
+//        byte buff[] = new byte[Constants.TEST_BUFFER_LENGTH];
+        byte buff[] = new byte[64];
+        if (endpointIn!=null){
+            int  len    = mUsbDeviceConnection.bulkTransfer(endpointIn, buff, buff.length, Constants.USB_TIMEOUT_IN_MS);
+            if (len > 0) {
+                LogUtils.d("received: " + len);
+                return buff;
+            } else {
+                return null;
+            }
         }
+
+        return null;
+
     }
 
     public void disconnect() {
@@ -285,5 +292,9 @@ public class HostAccessoryUtils {
             return -1;
         }
         return (buffer[1] << 8) | buffer[0];
+    }
+
+    public void release() {
+        mContext.unregisterReceiver(broadcastReceiver);
     }
 }

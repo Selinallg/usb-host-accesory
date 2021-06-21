@@ -40,4 +40,27 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/send_start"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onDataLoopStart"
+            android:text="start" />
+
+        <Button
+            android:id="@+id/send_stop"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onDataLoopStop"
+            android:text="stop" />
+
+    </LinearLayout>
+
 </LinearLayout>

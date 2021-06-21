@@ -1,6 +1,7 @@
 package com.nolovr.usbcon.main;
 
 import com.nolovr.usbcon.R;
+import com.nolovr.usbcon.UsbUtils.Constants;
 import com.nolovr.usbcon.UsbUtils.LogUtils;
 import com.nolovr.usbcon.device.DeviceChatActivity;
 import com.nolovr.usbcon.host.HostChatActivity;
@@ -11,20 +12,30 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 public abstract class BaseChatActivity extends Activity {
+
+    private static final String TAG = "BaseChatActivity";
 
     private TextView contentTextView;
     private EditText input;
     private Button   sendBt;
 
     Context mContext = this;
+    byte[]  datas    = new byte[Constants.TEST_BUFFER_LENGTH];
 
     public abstract void sendString(final String string);
+
+    protected abstract boolean sendByte(byte[] datas);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +50,7 @@ public abstract class BaseChatActivity extends Activity {
         filter.addAction("android.hardware.usb.action.USB_ACCESSORY_DETACHED");
         filter.addAction("android.hardware.usb.action.USB_STATE");
         //registerReceiver(mUsbBroadcastReceiver, filter);
+        fillDatas();
 
         contentTextView = (TextView) findViewById(R.id.content_text);
         input = (EditText) findViewById(R.id.input_edittext);
@@ -79,7 +91,7 @@ public abstract class BaseChatActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            LogUtils.d("--->"+action);
+            LogUtils.d("--->" + action);
             //判断外设
             if (action.equals("android.hardware.usb.action.USB_DEVICE_ATTACHED")) {//外设已经连接
                 startActivity(new Intent(mContext, HostChatActivity.class));
@@ -127,5 +139,68 @@ public abstract class BaseChatActivity extends Activity {
         }
 
     };
+
+    private void fillDatas() {
+        for (int i = 0; i < datas.length; i++) {
+            datas[i] = (byte) i;
+        }
+    }
+
+    DataLoopThread dataLoopThread;
+    boolean        running = false;
+    int            count   = 0;
+
+    public void onDataLoopStart(View view) {
+
+        //boolean ret = sendString(inputString);
+        // 开启循环，
+        running = true;
+        if (dataLoopThread == null) {
+            dataLoopThread = new DataLoopThread();
+        }
+        if (!dataLoopThread.isAlive()) {
+            dataLoopThread.start();
+        }
+
+    }
+
+    public void onDataLoopStop(View view) {
+        running = false;
+        count = 0;
+        if (dataLoopThread != null) {
+            dataLoopThread.interrupt();
+            try {
+                dataLoopThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            dataLoopThread = null;
+        }
+    }
+
+    long lastMillos;
+    long sendDatas = 0;
+
+    private class DataLoopThread extends Thread {
+        @Override
+        public void run() {
+            while (running) {
+                long    startTime = System.currentTimeMillis();
+                boolean ret       = sendByte(datas);
+                count++;
+                long endTime = System.currentTimeMillis();
+                Log.d(TAG, ret + "  run: count=" + count + "use time =" + (endTime - startTime));
+                if (ret) {
+                    sendDatas = sendDatas + datas.length;
+                }
+                long chazhie = endTime - lastMillos;
+                if (chazhie > 1000) {
+                    Log.d(TAG, "run: chazhie=" + chazhie + "发送数据为：" + sendDatas);
+                    sendDatas = 0;
+                    lastMillos = endTime;
+                }
+            }
+        }
+    }
 
 }

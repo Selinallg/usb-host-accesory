@@ -3,8 +3,11 @@ package com.nolovr.usbcon.device;
 import com.nolovr.usbcon.main.BaseChatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 public class DeviceChatActivity extends BaseChatActivity {
+
+    private static final String TAG = "DeviceChatActivity";
 
     private AccessoryCommunicator communicator;
 
@@ -16,7 +19,13 @@ public class DeviceChatActivity extends BaseChatActivity {
 
             @Override
             public void onReceive(byte[] payload, int length) {
-                printLineToUI("host> " + new String(payload, 0, length));
+               // Log.d(TAG, "onReceive: ="+length);
+                if (length >= 1024) {
+                    //
+                } else {
+                    printLineToUI("host> " + new String(payload, 0, length));
+                }
+
             }
 
             @Override
@@ -34,15 +43,21 @@ public class DeviceChatActivity extends BaseChatActivity {
                 printLineToUI("disconnected");
             }
         };
-    }    
+    }
 
     @Override
     public void sendString(String string) {
         communicator.send(string.getBytes());
     }
+
     @Override
-    public void onDestroy() {    	
-    	communicator.stop();    	
-    	super.onDestroy();
+    protected boolean sendByte(byte[] datas) {
+        return communicator.send(datas);
+    }
+
+    @Override
+    public void onDestroy() {
+        communicator.stop();
+        super.onDestroy();
     }
 }

@@ -28,7 +28,8 @@
             </intent-filter>
         </activity>
          
-        <activity android:name="com.nolovr.usbcon.device.DeviceChatActivity">
+        <activity android:name="com.nolovr.usbcon.device.DeviceChatActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
             </intent-filter>
@@ -37,7 +38,8 @@
                 android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
                 android:resource="@xml/accessory_filter" />
         </activity>
-        <activity android:name="com.nolovr.usbcon.host.HostChatActivity">
+        <activity android:name="com.nolovr.usbcon.host.HostChatActivity"
+            android:launchMode="singleInstance">
 
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />

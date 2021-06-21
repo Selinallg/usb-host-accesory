@@ -30,6 +30,11 @@ public class HostChatActivity extends BaseChatActivity {
     }
 
     @Override
+    protected boolean sendByte(byte[] datas) {
+        return hostAccessoryUtils.sendData(datas);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setBtText("host_send to devices");
@@ -59,17 +64,27 @@ public class HostChatActivity extends BaseChatActivity {
         keepThreadAlive.set(false);
         super.onStop();
     }
-    
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (hostAccessoryUtils!=null){
+            hostAccessoryUtils.release();
+        }
+    }
+
     private class CommunicationRunnable implements Runnable {
 
         @Override
         public void run() {
              while (keepThreadAlive.get()) {
                  byte[] bytes = hostAccessoryUtils.receiveData();
-                 if (bytes != null) {
+                 // TODO: 2021/6/21 计算数据传输量
+
+                 if (bytes != null && bytes.length< 1024) {
                     printLineToUI("device> host:"+new String(bytes));
                  }
-            }                      
+            }
         }
     }
     
