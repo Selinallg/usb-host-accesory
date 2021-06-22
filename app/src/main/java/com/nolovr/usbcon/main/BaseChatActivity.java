@@ -141,9 +141,12 @@ public abstract class BaseChatActivity extends Activity {
     };
 
     private void fillDatas() {
+        // 819200
         for (int i = 0; i < datas.length; i++) {
-            datas[i] = (byte) i;
+            datas[i] = (byte) 10;
         }
+
+        Log.d(TAG, "fillDatas: --length=" + datas.length + "value=" + new String(String.valueOf(datas[datas.length - 1])));
     }
 
     DataLoopThread dataLoopThread;
@@ -158,9 +161,7 @@ public abstract class BaseChatActivity extends Activity {
         if (dataLoopThread == null) {
             dataLoopThread = new DataLoopThread();
         }
-        if (!dataLoopThread.isAlive()) {
-            dataLoopThread.start();
-        }
+        dataLoopThread.start();
 
     }
 
@@ -199,6 +200,7 @@ public abstract class BaseChatActivity extends Activity {
                     sendDatas = 0;
                     lastMillos = endTime;
                 }
+
             }
         }
     }

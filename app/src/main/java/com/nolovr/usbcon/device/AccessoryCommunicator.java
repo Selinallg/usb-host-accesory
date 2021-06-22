@@ -64,6 +64,7 @@ public abstract class AccessoryCommunicator implements AccessoryUtils.AccessoryA
 
     long lastTimeMillis;
     long revDataLenght;
+    int count =0;
 
     private class CommunicationThread extends Thread {
         @Override
@@ -73,11 +74,13 @@ public abstract class AccessoryCommunicator implements AccessoryUtils.AccessoryA
                 if (bytes != null) {
                     long currentTimeMillis = System.currentTimeMillis();
                     long chazhi            = currentTimeMillis - lastTimeMillis;
+                    count ++;
                     revDataLenght = revDataLenght + bytes.length;
                     if (chazhi > 1000) {
-                        Log.d(TAG, "run: CommunicationThread rev data =" + revDataLenght / (1024*1024)  + "time =" + chazhi);
+                        Log.d(TAG, "run: CommunicationThread rev data =" + revDataLenght  + "time =" + chazhi + "|-->"+count);
                         lastTimeMillis = currentTimeMillis;
                         revDataLenght = 0;
+                        count = 0;
                     }
                     onReceive(bytes, bytes.length);
                 }

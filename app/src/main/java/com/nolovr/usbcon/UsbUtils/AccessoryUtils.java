@@ -27,6 +27,7 @@ public class AccessoryUtils {
     private              ParcelFileDescriptor fileDescriptor;
     private              PendingIntent        intent; //意图
     private static final String               ACTION_USB_PERMISSION = "giec";
+    private  byte[] bytes;
 
 
     public AccessoryUtils(Context context) {
@@ -35,6 +36,8 @@ public class AccessoryUtils {
 
         intent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
         context.registerReceiver(broadcastReceiver, new IntentFilter(ACTION_USB_PERMISSION));
+
+        bytes = new byte[Constants.TEST_BUFFER_LENGTH];
     }
 
     public UsbAccessory searchAccessory() {
@@ -98,11 +101,11 @@ public class AccessoryUtils {
         } else {
 //			byte[] bytes = new byte[Constants.BUFFER_SIZE_IN_BYTES];
 //            byte[] bytes = new byte[Constants.ACCESSORY_MAX_BUFFER_SIZE];
-            byte[] bytes = new byte[Constants.TEST_BUFFER_LENGTH];
+
             try {
 //				if(inStream.available() > 0) {
                 int len = inStream.read(bytes);
-                Log.d(TAG, "receiveData: len="+len);
+                Log.d(TAG, "receiveData: len="+len + " byte.length="+bytes.length);
                 if (len > 0) {
                    // LogUtils.d("receive data successfully");
                     byte[] readBytes = new byte[len];

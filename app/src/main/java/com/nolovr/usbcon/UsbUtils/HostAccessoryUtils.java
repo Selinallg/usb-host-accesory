@@ -16,6 +16,7 @@ import android.hardware.usb.UsbEndpoint;
 import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
 import android.os.Build;
+import android.util.Log;
 
 /**
  * @author Giec:lijh
@@ -31,7 +32,7 @@ public class HostAccessoryUtils {
 
     private static final String MANUFACTURER = Build.MANUFACTURER;
     private static final String MODEL        = Build.MODEL;
-    private static final String DESCRIPTION  = "NOLOVR Usb Communication";
+    private static final String DESCRIPTION  = MANUFACTURER + " " + MODEL + " NOLOVR Usb Communication";
     private static final String VERSION      = "1.0";
     private static final String URI          = "https://www.nolovr.com/";
     private static final String SERIAL       = "0000000012345678";
@@ -185,7 +186,7 @@ public class HostAccessoryUtils {
      * @return true means successfully
      */
     public boolean sendData(byte[] bytes) {
-        LogUtils.e("sendData dataLenght="+bytes.length);
+        LogUtils.e("sendData dataLenght=" + bytes.length);
         int result = mUsbDeviceConnection.bulkTransfer(endpointOut, bytes, bytes.length, Constants.USB_TIMEOUT_IN_MS);
         if (result < 0) {
             LogUtils.e("send fail");
@@ -207,8 +208,8 @@ public class HostAccessoryUtils {
     public byte[] receiveData() {
 //        byte buff[] = new byte[Constants.TEST_BUFFER_LENGTH];
         byte buff[] = new byte[64];
-        if (endpointIn!=null){
-            int  len    = mUsbDeviceConnection.bulkTransfer(endpointIn, buff, buff.length, Constants.USB_TIMEOUT_IN_MS);
+        if (endpointIn != null) {
+            int len = mUsbDeviceConnection.bulkTransfer(endpointIn, buff, buff.length, Constants.USB_TIMEOUT_IN_MS);
             if (len > 0) {
                 LogUtils.d("received: " + len);
                 return buff;
@@ -247,6 +248,14 @@ public class HostAccessoryUtils {
             LogUtils.e("Device does not support accessory protocol.");
             return false;
         }
+
+//        int retlen = sendCommand(conn);
+//        LogUtils.d("sendCommand: len="+retlen);
+
+//
+//        int retlen2 = sendCommand2(conn);
+//        LogUtils.d("sendCommand2: len="+retlen2);
+
         // Send identifying strings.
         sendString(conn, HostAccessoryConstants.ACCESSORY_STRING_MANUFACTURER, MANUFACTURER);
         sendString(conn, HostAccessoryConstants.ACCESSORY_STRING_MODEL, MODEL);
@@ -255,9 +264,23 @@ public class HostAccessoryUtils {
         sendString(conn, HostAccessoryConstants.ACCESSORY_STRING_URI, URI);
         sendString(conn, HostAccessoryConstants.ACCESSORY_STRING_SERIAL, SERIAL);
         // set accessory mode start.
+
+
+//        int retlen3 = sendCommand(conn);
+//        LogUtils.d("sendCommand3: len="+retlen3);
+
+
+//        int retlen4 = sendCommand2(conn);
+//        LogUtils.d("sendCommand4: len="+retlen4);
+
+
         LogUtils.d("Sending accessory start request.");
         int len = conn.controlTransfer(UsbConstants.USB_DIR_OUT | UsbConstants.USB_TYPE_VENDOR,
                 HostAccessoryConstants.ACCESSORY_START, 0, 0, null, 0, Constants.USB_TIMEOUT_IN_MS);
+
+
+//        int retlen4 = sendCommand2(conn);
+//        LogUtils.d("sendCommand4: len=" + retlen4);
 
         if (conn != null)
             conn.close();
@@ -283,6 +306,28 @@ public class HostAccessoryUtils {
         }
         return len;
     }
+
+    private int sendCommand(UsbDeviceConnection conn) {
+        byte buffer[] = new byte[2];
+        int len = conn.controlTransfer(UsbConstants.USB_DIR_IN | UsbConstants.USB_TYPE_VENDOR,
+                HostAccessoryConstants.ACCESSORY_SET_AUDIO_MODE, 1, 0, buffer, 2, 10000);
+        if (len != 2) {
+            return -1;
+        }
+        return len;
+    }
+
+
+    private int sendCommand2(UsbDeviceConnection conn) {
+        byte buffer[] = new byte[2];
+        int len = conn.controlTransfer(UsbConstants.USB_DIR_OUT | UsbConstants.USB_TYPE_VENDOR,
+                HostAccessoryConstants.ACCESSORY_SET_AUDIO_MODE, 1, 0, null, 0, 10000);
+        if (len != 2) {
+            return -1;
+        }
+        return len;
+    }
+
 
     private int getProtocol(UsbDeviceConnection conn) {
         byte buffer[] = new byte[2];
