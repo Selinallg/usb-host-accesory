@@ -12,12 +12,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -149,17 +153,20 @@ public abstract class BaseChatActivity extends Activity {
         Log.d(TAG, "fillDatas: --length=" + datas.length + "value=" + new String(String.valueOf(datas[datas.length - 1])));
     }
 
-    DataLoopThread dataLoopThread;
-    boolean        running = false;
-    int            count   = 0;
+    Thread  dataLoopThread;
+    boolean running = false;
+    int     count   = 0;
 
     public void onDataLoopStart(View view) {
 
         //boolean ret = sendString(inputString);
         // 开启循环，
+        if (running) {
+            return;
+        }
         running = true;
         if (dataLoopThread == null) {
-            dataLoopThread = new DataLoopThread();
+            dataLoopThread = new Thread(new FileRunnable());
         }
         dataLoopThread.start();
 
@@ -182,7 +189,9 @@ public abstract class BaseChatActivity extends Activity {
     long lastMillos;
     long sendDatas = 0;
 
-    private class DataLoopThread extends Thread {
+
+    private class ByteRunnable implements Runnable {
+
         @Override
         public void run() {
             while (running) {
@@ -202,6 +211,54 @@ public abstract class BaseChatActivity extends Activity {
                 }
 
             }
+        }
+    }
+
+
+    private class FileRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            long            startTime = System.currentTimeMillis();
+            FileInputStream is        = null;
+            try {
+                //is = mContext.openFileInput("bigdata.mp4");
+                String path     = Environment.getExternalStorageDirectory().getPath() + "/" + "bigdata.mp4";
+                File   dataFile = new File(path);
+                if (!dataFile.exists()) {
+                    return;
+                }
+                is = new FileInputStream(dataFile);
+
+                byte[] bytes  = new byte[Constants.TEST_BUFFER_LENGTH];
+                int    offset = 0;
+                int    len;
+                Log.d(TAG, "transfer begin");
+                while ((len = is.read(bytes)) != -1) {
+                    boolean ret = sendByte(bytes);
+                    Log.d(TAG, ret + "  len:" + len);
+                    offset = offset + len;
+                    Log.d(TAG, "offset:" + offset);
+                    sendDatas = sendDatas + len;
+                }
+            } catch (Exception e) {
+                LogUtils.e("error:" + e.toString());
+            } finally {
+                LogUtils.d("send over");
+                try {
+                    if (is != null)
+                        is.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                // String endCmd = "lijh";
+                // hostAccessoryUtils.sendData(endCmd.getBytes());
+            }
+
+            long endTime = System.currentTimeMillis();
+            Log.d(TAG, "  run: sendDatas=" + sendDatas + "use time =" + (endTime - startTime));
+            sendDatas = 0;
         }
     }
 

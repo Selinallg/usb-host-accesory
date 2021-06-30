@@ -35,7 +35,7 @@ public class HostAccessoryUtils {
     private static final String DESCRIPTION  = MANUFACTURER + " " + MODEL + " NOLOVR Usb Communication";
     private static final String VERSION      = "1.0";
     private static final String URI          = "https://www.nolovr.com/";
-    private static final String SERIAL       = "0000000012345678";
+    private static final String SERIAL       = Build.SERIAL;
 
     private static boolean isConnected = false;
 

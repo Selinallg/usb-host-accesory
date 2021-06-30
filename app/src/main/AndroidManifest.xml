@@ -6,6 +6,9 @@
 	<uses-feature android:name="android.hardware.usb.host" />
     <uses-feature android:name="android.hardware.usb.accessory"/>
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <uses-sdk
         android:minSdkVersion="21"
         android:targetSdkVersion="23" />
