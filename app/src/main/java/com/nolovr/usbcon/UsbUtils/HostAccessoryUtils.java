@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.hardware.usb.UsbConfiguration;
 import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
@@ -22,6 +23,8 @@ import android.util.Log;
  * @author Giec:lijh
  */
 public class HostAccessoryUtils {
+
+    private static final String TAG = "HostAccessoryUtils";
 
 //    private static final String MANUFACTURER = "Giec";
 //    private static final String MODEL        = "Accessory Display";
@@ -147,16 +150,49 @@ public class HostAccessoryUtils {
         if (!mUsbManager.hasPermission(device)) {
             mUsbManager.requestPermission(device, PendingIntent.getBroadcast(mContext, 0, new Intent("Giec:lijh"), 0));
         }
-        UsbDeviceConnection conn = mUsbManager.openDevice(device);
+        UsbDeviceConnection conn           = mUsbManager.openDevice(device);
+        int configurationCount = device.getConfigurationCount();
+        int                 interfaceCount = device.getInterfaceCount();
+        Log.d(TAG, "connect: configurationCount=" + configurationCount);
+        Log.d(TAG, "connect: interfaceCount=" + interfaceCount);
+
+
+        for (int i = 0; i < configurationCount; i++) {
+            UsbConfiguration configuration = device.getConfiguration(i);
+            Log.d(TAG, "connect: configuration.getName()"+configuration.getName());
+            Log.d(TAG, "connect: configuration.getId()"+configuration.getId());
+        }
+
+        for (int i = 0; i < interfaceCount; i++) {
+            UsbInterface tempUsbInterface = device.getInterface(i);
+            int          interfaceClass   = tempUsbInterface.getInterfaceClass();
+            int          interfaceProtocol = tempUsbInterface.getInterfaceProtocol();
+            for (int j = 0; j < tempUsbInterface.getEndpointCount(); j++) {
+                UsbEndpoint endpoint = tempUsbInterface.getEndpoint(j);
+                Log.d(TAG, i + "-" + j + "connect: tempUsbInterface.getInterfaceClass()=" + interfaceClass);
+//                UsbConstants.USB_CLASS_VENDOR_SPEC
+                Log.d(TAG, i + "-" + j + "connect: tempUsbInterface.interfaceProtocol()=" + interfaceProtocol);
+//                UsbConstants.USB_CLASS_PER_INTERFACE
+
+                Log.d(TAG, i + "-" + j + "connect: endpoint.getMaxPacketSize()=" + endpoint.getMaxPacketSize());
+                Log.d(TAG, i + "-" + j +"connect: endpoint.getType()=" + endpoint.getType());
+                Log.d(TAG, i + "-" + j +"connect: endpoint.getDirection()=" + endpoint.getDirection());
+
+                Log.d(TAG, "\r\n");
+            }
+        }
         mUsbInterface = device.getInterface(0);
         if (mUsbInterface != null) {
             for (int i = 0; i < mUsbInterface.getEndpointCount(); i++) {
                 UsbEndpoint endpoint = mUsbInterface.getEndpoint(i);
                 if (endpoint.getType() == UsbConstants.USB_ENDPOINT_XFER_BULK) {
-                    if (endpoint.getDirection() == UsbConstants.USB_DIR_IN)
+                    if (endpoint.getDirection() == UsbConstants.USB_DIR_IN) {
                         endpointIn = endpoint;
-                    else if (endpoint.getDirection() == UsbConstants.USB_DIR_OUT)
+                    } else if (endpoint.getDirection() == UsbConstants.USB_DIR_OUT) {
                         endpointOut = endpoint;
+                    } else if (endpoint.getDirection() == UsbConstants.USB_CLASS_AUDIO) {
+
+                    }
                 }
             }
         }

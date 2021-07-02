@@ -73,6 +73,19 @@ public abstract class BaseChatActivity extends Activity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String path     = Environment.getExternalStorageDirectory().getPath() + "/" + "bigdata.mp4";
+        File   dataFile = new File(path);
+        if (!dataFile.exists()) {
+            return;
+        }
+
+        long totalSpace = dataFile.getTotalSpace();
+        Log.d(TAG, "onResume: totalSpace="+totalSpace);
+    }
+
     public void setBtText(String text) {
         if (sendBt != null)
             sendBt.setText(text);
@@ -205,7 +218,8 @@ public abstract class BaseChatActivity extends Activity {
                 }
                 long chazhie = endTime - lastMillos;
                 if (chazhie > 1000) {
-                    Log.d(TAG, "run: chazhie=" + chazhie + "发送数据为：" + sendDatas);
+                    Log.d(TAG, "run: chazhie=" + chazhie + "发送数据为：" + count+"  包");
+                    count = 0;
                     sendDatas = 0;
                     lastMillos = endTime;
                 }
@@ -228,13 +242,16 @@ public abstract class BaseChatActivity extends Activity {
                 if (!dataFile.exists()) {
                     return;
                 }
+
                 is = new FileInputStream(dataFile);
+                int available = is.available();
+                Log.d(TAG, "run: available="+available);
 
                 byte[] bytes  = new byte[Constants.TEST_BUFFER_LENGTH];
                 int    offset = 0;
                 int    len;
                 Log.d(TAG, "transfer begin");
-                while ((len = is.read(bytes)) != -1) {
+                while ((len = is.read(bytes)) !=-1) {
                     boolean ret = sendByte(bytes);
                     Log.d(TAG, ret + "  len:" + len);
                     offset = offset + len;
