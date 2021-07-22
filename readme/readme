@@ -13,3 +13,87 @@ https://tech.hqew.com/fangan_744817
 
 USB通讯协议 && 数据传输
 https://www.cnblogs.com/AlwaysOnLines/p/4313355.html#:~:text=%E5%B8%A7%EF%BC%88frame%EF%BC%89%E5%92%8C%E5%BE%AE%E5%B8%A7%EF%BC%88microframe%EF%BC%89.%20USB%E6%80%BB%E7%BA%BF%E4%B8%8A%E7%9A%84%E4%BC%A0%E8%BE%93%E7%94%B1%E5%B8%A7%E7%BB%84%E6%88%90%E3%80%82.%20%E4%BD%8E%E9%80%9F%E6%88%96%E5%85%A8%E9%80%9F%E8%AE%BE%E5%A4%87%E9%80%9A%E8%BF%87%E5%B8%A7%E6%9D%A5%E4%BC%A0%E9%80%81%EF%BC%8C%E5%91%A8%E6%9C%9F1ms.%20%E9%AB%98%E9%80%9F%E8%AE%BE%E5%A4%87%E9%80%9A%E8%BF%87%E5%BE%AE%E5%B8%A7%EF%BC%8C%E5%91%A8%E6%9C%9F125us.%20host%E6%AF%8F1ms%E4%BA%A7%E7%94%9FSOF%E5%8C%85%EF%BC%88%E7%9B%B8%E5%BD%93%E4%BA%8E%E5%BE%AE%E5%B8%A7%E7%9A%84%E6%97%B6%E5%80%99%E6%98%AF%E6%AF%8F8%E4%B8%AA%E5%BE%AE%E5%B8%A7%E4%BA%A7%E7%94%9F%E4%B8%80%E4%B8%AASOF%E5%8C%85%EF%BC%89.,%E4%B8%80%E4%B8%AA%E5%B8%A7%E5%8F%AF%E4%BB%A5%E5%8C%85%E5%90%AB%E5%A4%9A%E4%B8%AA%E4%BA%8B%E5%8A%A1%E3%80%82.%20%E6%AF%8FN%E4%B8%AA%E5%B8%A7%E6%80%BB%E7%BA%BF%E4%BC%9A%E5%88%86%E9%85%8D%E5%B8%A6%E5%AE%BD%E7%BB%99%E4%B8%AD%E6%96%AD%E4%BC%A0%E8%BE%93%E6%88%96%E6%98%AF%E7%AD%89%E6%97%B6%E4%BC%A0%E8%BE%93.%20%E5%8F%AF%E4%BB%A5%E8%BF%99%E4%B9%88%E7%90%86%E8%A7%A3%EF%BC%9A%E6%80%BB%E7%BA%BF%E6%97%B6%E9%9A%99%E5%88%86%E6%88%90%E4%B8%80%E4%B8%AA%E4%B8%AA%E5%B8%A7%EF%BC%8C%E6%AF%8F%E4%B8%AA%E5%B8%A7%E9%87%8C%E9%9D%A2%E7%94%B1%E4%BA%8B%E5%8A%A1%E7%BB%84%E6%88%90%E3%80%82.%20host%20controller%E7%9A%84%E4%BD%9C%E7%94%A8%E5%B0%B1%E6%98%AF%E6%A0%B9%E6%8D%AE%E4%BC%A0%E8%BE%93%E7%B1%BB%E5%9E%8B%E5%90%88%E7%90%86%E5%88%86%E9%85%8D%E8%BF%99%E4%BA%9B%E4%BA%8B%E5%8A%A1%E5%9C%A8%E6%80%BB%E7%BA%BF%E4%B8%8A%E7%9A%84%E8%B0%83%E5%BA%A6%E3%80%82.
+
+===================================================
+// 需要配合 ubuntu 可执行文件进行
+
+https://blog.csdn.net/AndrExpert/article/details/85311122?utm_medium=distribute.pc_relevant_download.none-task-blog-2~default~BlogCommendFromBaidu~default-3.nonecase&depth_1-utm_source=distribute.pc_relevant_download.none-task-blog-2~default~BlogCommendFromBaidu~default-3.nonecas
+
+https://blog.csdn.net/tianruxishui/article/details/37903841?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-7.baidujs&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7Edefault-7.baidujs
+
+https://blog.csdn.net/ShareUs/article/details/85264469?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_baidulandingword-0&spm=1001.2101.3001.4242
+
+https://bbs.csdn.net/topics/392015585?list=18064265
+
+https://blog.csdn.net/lj402159806/article/details/69940628/
+
+https://blog.csdn.net/lj402159806/article/details/69940628 跑通
+
+-- USB，AOA开源项目
+libusb项目链接 https://github.com/libusb/libusb.git
+设备aoa模式参考项目链接 https://github.com/timotto/AOA-Proxy.git
+本例程设备端项目链接 https://git.oschina.net/vonchenchen/aoa_proxy.git
+本例程Android端项目链接 https://git.oschina.net/vonchenchen/aoa_android.git
+将运行Linux机器转变为Android配件- https://github.com/gibsson/linux-adk
+
+> ADK中与USB配件模式相关的两个类是UsbManager和UsbAccessory。UsbManager用于枚举连接的USB配件并与其通信，UsbAccessory代表Android配件并包含获取配件描述信息的方法。
+
+1. UsbAccessory中你需要小心的坑及解决方案- https://blog.csdn.net/ljYangscut/article/details/79320670
+1.系统不广播Usb连接事件（android.hardware.usb.action.USB_ACCESSORY_ATTACHED）
+2.系统有时不广播Usb断开事件（android.hardware.usb.action.USB_ACCESSORY_DETACHED）
+3.系统有时会异常缓存UsbAccessory，导致没连接上时App却可以获取到不可用的Accessory
+
+-- linux里使用libusb库来模拟aoa协议来作为外设端。
+ Usb Accessory模式, 这个模式正常的使用方法是用来和专为Android设备设计的USB主机硬件通讯的.
+ USB Accessory有两种API可供选择, 第一种是android.hardware.usb包, 只能用在Android 3.1及之后的系统上, 不需要额外添加library, 第二种是com.android.future.usb包, 需要额外添加 Google APIs add-on library , 也就是谷歌服务, 但是可以运行在Android 2.3.4以及之后的系统上, 这里我们使用第一种来演示, 第二种可以去官方文档进行了解 .
+
+使用UsbAccessary模式来与pc通信-https://blog.csdn.net/lj402159806/article/details/69940628
+UsbAccessory demo下载- https://github.com/GavinAndre/UsbAccessoryDemo
+UsbAccessory - https://github.com/LucianZala/linuxUsbAccessory
+UsbAccessory - https://github.com/quandoo/android2android-accessory
+
+
+
+https://blog.csdn.net/tianruxishui/article/details/37903841
+主机模式是指Android设备充当USB主机并为总线供电。此模式下，Android设备需支持USB主机功能或OTG功能，此时Android设备的USB主机称为USB嵌入式主机EH（Embedded Host）[2]。
+与PC上的USB主机相比，EH设备可能无法为连接到其总线上的未识别外围设备加载驱动程序，因此它们对其目标外围设备列表TPL（Target Peripheral List）进行了定义[3]。
+这些外围USB设备大部分为HID设备（Human Interface Device）、BOMS设备（Bulk Only Mass Storage，如U盘）和CDC设备（Comm-
+unication Device Class，USB通信设备类，如打印机），其驱动程序已存在于Android平台的系统中（Linux Kernel），因此Android设备可以与其直接通信。
+
+
+https://blog.csdn.net/lidec/article/details/70395910?utm_medium=distribute.pc_relevant_download.none-task-blog-2~default~searchFromBaidu~default-6.nonecase&depth_1-utm_source=distribute.pc_relevant_download.none-task-blog-2~default~searchFromBaidu~default-6.nonecas
+https://gitee.com/vonchenchen/aoa_android
+https://blog.csdn.net/lidec/article/details/54908174
+https://gitee.com/vonchenchen/aoa_proxy
+
+UsbHost
+
+https://blog.csdn.net/glouds/article/details/40303549
+
+https://blog.csdn.net/u013057253/article/details/82725585
+
+
+
+
+
+
+
+https://wenku.baidu.com/view/494c4134f02d2af90242a8956bec0975f465a4bc.html
+
+https://source.android.google.cn/devices/accessories/aoa2
+
+
+https://blog.csdn.net/tianruxishui/article/details/37903841
+
+
+https://www.jianshu.com/p/9902179374aa
+
+
+https://blog.csdn.net/yingzhao80/article/details/45511351
+
+// 传输速度
+http://www.voidcn.com/article/p-wyyuzdbx-xh.html
+
+
+
+https://www.jianshu.com/p/b267c5cedfa9
